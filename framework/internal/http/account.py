@@ -3,7 +3,6 @@ import httpx
 
 class AccountApi:
     def __init__(self, base_url: str = "http://185.185.143.231:8085") -> None:
-        # http://185.185.143.231:8085/register/user/async-register
         self._base_url = base_url
         self._client = httpx.Client(base_url=self._base_url)
 
@@ -15,4 +14,8 @@ class AccountApi:
         }
         response = self._client.post(url="/register/user/async-register", json=data)
         print(response.content)
+        return response
+
+    def activate_user(self, token) -> httpx.Response:
+        response = self._client.put(url=f"/register/user/activate?token={token}")
         return response
