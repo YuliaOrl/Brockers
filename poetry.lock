@@ -152,6 +152,22 @@ files = [
 ]
 
 [[package]]
+name = "pika"
+version = "1.4.4"
+description = "Pika Python AMQP Client Library"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pika-1.4.4-py3-none-any.whl", hash = "sha256:48de960c97a93b55db06b8be4c53eb977c9c8a2754c57cdae9097abcbd70ce04"},
+    {file = "pika-1.4.4.tar.gz", hash = "sha256:8cfc8b33a5cb16e733bd60cffca9732c0d1d761ecd80a89f34ed7df2cd38d6d6"},
+]
+
+[package.extras]
+gevent = ["gevent"]
+tornado = ["tornado"]
+twisted = ["twisted"]
+
+[[package]]
 name = "pluggy"
 version = "1.7.0"
 description = "plugin and hook calling mechanisms for python"
@@ -211,4 +227,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.14"
-content-hash = "dbc5a71901ea49379fde990dad873952a8098c0ca09fe9299bc4b501d142d8c0"
+content-hash = "e6fd125157ee106f26b24cada75f91545108e7a9e98c89a0666c5a44cc5f55ae"
