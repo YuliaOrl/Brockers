@@ -1,9 +1,11 @@
 import time
+import uuid
 from framework.helpers.kafka.consumers.register_events import RegisterEventsSubscriber
 from framework.helpers.kafka.consumers.register_events_errors import RegisterEventsErrorsSubscriber
 from framework.internal.http.account import AccountApi
 from framework.internal.http.mail import MailApi
 from framework.internal.kafka.producer import Producer
+from framework.internal.rmq.publisher import RmqPublisher
 
 
 def test_failed_registration(
@@ -136,3 +138,23 @@ def test_register_events_errors_with_error_type_unknown(
     }
     kafka_producer.send("register-events-errors", message)
     register_events_errors_subscriber.find_message(login="string", error_type="validation")
+
+
+def test_rmq(
+        rmq_publisher: RmqPublisher,
+        mail: MailApi
+) -> None:
+    address = f"{uuid.uuid4().hex}@mail.ru"
+    message = {
+        "address": address,
+        "subject": " My publisher message",
+        "body": "My publisher message",
+    }
+    rmq_publisher.publisher("dm.mail.sending", message)
+    for _ in range(10):
+        response = mail.find_message(query=address)
+        if response.json()["total"] > 0:
+            break
+        time.sleep(1)
+    else:
+        raise AssertionError(f"Письмо для адреса {address} не найдено")
